@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Profil Ara</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 20px auto; padding: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; }
+        input[type="text"], input[type="password"] { 
+            width: 100%; 
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .error { 
+            color: #dc3545; 
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #f5c6cb;
+            border-radius: 4px;
+            background-color: #f8d7da;
+        }
+        .note { 
+            font-size: 0.9em; 
+            color: #6c757d;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+        button { 
+            padding: 10px 20px; 
+            background-color: #007bff; 
+            color: white; 
+            border: none; 
+            cursor: pointer;
+            border-radius: 4px;
+            width: 100%;
+        }
+        button:hover { background-color: #0056b3; }
+        .required { color: #dc3545; }
+    </style>
+</head>
+<body>
+    <h1 style="color: #333; text-align: center;">Instagram Profil Arama</h1>
+    
+    {% if error %}
+        <div class="error">{{ error }}</div>
+    {% endif %}
+    
+    <form method="POST" onsubmit="return validateForm()">
+        <div class="form-group">
+            <label for="ig_username">Instagram Kullanıcı Adınız <span class="required">*</span></label>
+            <input type="text" id="ig_username" name="ig_username" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="ig_password">Instagram Şifreniz <span class="required">*</span></label>
+            <input type="password" id="ig_password" name="ig_password" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="target_account">Analiz Edilecek Hesap <span class="required">*</span></label>
+            <input type="text" id="target_account" name="target_account" 
+                   value="{{ last_search }}" placeholder="kullaniciadi" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="username_search">Kullanıcı Adında Ara <span class="required">*</span></label>
+            <input type="text" id="username_search" name="username_search" 
+                   placeholder="örn: john" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="bio_search">Bio'da Ara (Opsiyonel)</label>
+            <input type="text" id="bio_search" name="bio_search" 
+                   placeholder="örn: developer">
+        </div>
+        
+        <button type="submit">Ara</button>
+        
+        <div class="note">
+            <p><strong>Önemli Notlar:</strong></p>
+            <ul>
+                <li><span class="required">*</span> ile işaretli alanlar zorunludur</li>
+                <li>Maksimum 75 sonuç gösterilir</li>
+                <li>Veriler anlık değildir (5 dakika öncesine kadar)</li>
+                <li>Gizli hesaplar için takipçi olmanız gerekmektedir</li>
+            </ul>
+        </div>
+    </form>
+
+    <script>
+        function validateForm() {
+            const inputs = document.querySelectorAll('input[required]');
+            let isValid = true;
+            
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    input.style.borderColor = '#dc3545';
+                    isValid = false;
+                } else {
+                    input.style.borderColor = '#ddd';
+                }
+            });
+            
+            return isValid;
+        }
+    </script>
+</body>
+</html>

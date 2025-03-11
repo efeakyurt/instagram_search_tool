@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arama Sonuçları</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 1200px; margin: 20px auto; padding: 20px; }
+        .result-item { border: 1px solid #ddd; padding: 15px; margin-bottom: 10px; }
+        .profile-pic { width: 50px; height: 50px; border-radius: 50%; }
+        .search-params { margin-bottom: 20px; color: #666; }
+        .highlight { background-color: #ffeb3b; }
+        a { color: #007bff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <h1>Arama Sonuçları</h1>
+    
+    <div class="search-params">
+        <strong>Arama Kriterleri:</strong><br>
+        Hesap: {{ search_params.target_account }}<br>
+        Kullanıcı Adı: "{{ search_params.username_search }}"<br>
+        {% if search_params.bio_search %}
+            Bio: "{{ search_params.bio_search }}"
+        {% endif %}
+    </div>
+
+    {% if results %}
+        <div class="result-count">{{ results|length }} sonuç bulundu</div>
+        
+        {% for result in results %}
+            <div class="result-item">
+                <img src="{{ result.profile_pic }}" alt="Profil Resmi" class="profile-pic">
+                <h3>
+                    <a href="https://instagram.com/{{ result.username }}" target="_blank">
+                        @{{ result.username }}
+                    </a>
+                </h3>
+                <p><strong>Ad:</strong> {{ result.full_name }}</p>
+                <p><strong>Bio:</strong> {{ result.bio }}</p>
+                <p><strong>Takipçi:</strong> {{ result.followers }} | 
+                   <strong>Takip:</strong> {{ result.followees }}</p>
+                <p><strong>Gizlilik:</strong> {{ result.is_private }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Hiç sonuç bulunamadı.</p>
+    {% endif %}
+    
+    <div style="margin-top: 30px;">
+        <a href="/">Yeni Arama Yap</a>
+    </div>
+</body>
+</html>
